@@ -14,7 +14,7 @@ useEffect(()=>{
 
 getComments();
 
-},[]);
+},[getComments]);
 
 
 
