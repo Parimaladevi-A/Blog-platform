@@ -3,6 +3,6 @@ import axios from "axios";
 
 export default axios.create({
 
-baseURL:"http://localhost:5000/api"
+baseURL:"https://blog-platform-ul3m.onrender.com/api"
 
 });
