@@ -1,151 +1,157 @@
-import React,{useState,useEffect} from "react";
-import api from "../api";
+import React, { useEffect, useState, useCallback } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 
+function PostDetails() {
 
-function PostDetails({postId}){
+  const { id } = useParams();
 
+  const [post, setPost] = useState(null);
+  const [comments, setComments] = useState([]);
+  const [comment, setComment] = useState("");
 
-const [text,setText]=useState("");
-const [comments,setComments]=useState([]);
+  const token = localStorage.getItem("token");
 
 
+  const getPost = useCallback(async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:5000/api/posts/${id}`
+      );
+      setPost(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  }, [id]);
 
-useEffect(()=>{
 
-getComments();
+  const getComments = useCallback(async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:5000/api/comments/${id}`
+      );
 
-},[getComments]);
+      setComments(res.data);
 
+    } catch (err) {
+      console.log(err);
+    }
 
+  }, [id]);
 
-const getComments=async()=>{
 
+  useEffect(() => {
 
-try{
+    getPost();
+    getComments();
 
-const res =
-await api.get(`/comments/${postId}`);
+  }, [getPost, getComments]);
 
 
-setComments(res.data);
 
+  const addComment = async (e) => {
 
-}
-catch(error){
+    e.preventDefault();
 
-console.log(
-"Get comment error",
-error.response?.data
-);
+    try {
 
-}
+      await axios.post(
+        `http://localhost:5000/api/comments/${id}`,
+        {
+          text: comment
+        },
+        {
+          headers:{
+            Authorization:`Bearer ${token}`
+          }
+        }
+      );
 
-};
 
+      setComment("");
+      getComments();
 
 
+    } catch(err){
 
-const addComment=async()=>{
+      console.log(err);
 
+    }
 
-try{
+  };
 
 
-const res =
-await api.post(
 
-`/comments/${postId}`,
+  if(!post){
+    return <h2>Loading...</h2>
+  }
 
-{
-text:text
-},
 
-{
-headers:{
-Authorization:
-`Bearer ${localStorage.getItem("token")}`
-}
-}
 
-);
+  return (
 
+    <div className="post-details">
 
-console.log(res.data);
 
+      <h1>{post.title}</h1>
 
-alert("Comment added");
+      <p>{post.content}</p>
 
 
-setText("");
+      <hr/>
 
 
-getComments();
+      <h2>Comments</h2>
 
 
-}
-catch(error){
+      <form onSubmit={addComment}>
 
-console.log(
-"Add comment error",
-error.response?.data
-);
+        <input
 
+          type="text"
 
-alert(
-error.response?.data || "Error"
-);
+          placeholder="Write comment..."
 
-}
+          value={comment}
 
+          onChange={(e)=>setComment(e.target.value)}
 
-};
+        />
 
 
+        <button type="submit">
+          Add Comment
+        </button>
 
-return(
 
-<div>
+      </form>
 
 
-<h3>Comments</h3>
 
+      {
+        comments.map((c)=>(
 
-{
-comments.map((c)=>(
+          <div className="comment" key={c._id}>
 
-<p key={c._id}>
+            <b>
+              {c.user?.name}
+            </b>
 
-<b>{c.user?.name}</b> : {c.text}
+            <p>
+              {c.text}
+            </p>
 
-</p>
 
-))
-}
+          </div>
 
+        ))
+      }
 
 
-<textarea
 
-value={text}
+    </div>
 
-onChange={(e)=>setText(e.target.value)}
-
-placeholder="Write comment"
-
-/>
-
-
-<br/>
-
-
-<button onClick={addComment}>
-Add Comment
-</button>
-
-
-</div>
-
-)
+  );
 
 }
 

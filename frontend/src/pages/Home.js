@@ -10,8 +10,8 @@ const [posts,setPosts]=useState([]);
 
 const [search,setSearch]=useState("");
 
-const [editId,setEditId]=useState("");
-
+const [editId,setEditId]=useState();
+console.log(editId);
 
 useEffect(()=>{
 
