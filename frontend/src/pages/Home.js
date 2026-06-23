@@ -1,205 +1,93 @@
-import React,{useEffect,useState} from "react";
+import React, { useEffect, useState } from "react";
 import api from "../api";
 import PostDetails from "./PostDetails";
 
+function Home() {
+  const [posts, setPosts] = useState([]);
+  const [search, setSearch] = useState("");
 
-function Home(){
+  useEffect(() => {
+    getPosts();
+  }, []);
 
+  const getPosts = async () => {
+    try {
+      const res = await api.get("/posts");
+      setPosts(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-const [posts,setPosts]=useState([]);
+  const likePost = async (id) => {
+    try {
+      await api.put(
+        `/posts/${id}/like`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
 
-const [search,setSearch]=useState("");
+      getPosts();
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-const [editId,setEditId]=useState();
-console.log(editId);
+  const deletePost = async (id) => {
+    try {
+      await api.delete(`/posts/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
 
-useEffect(()=>{
+      getPosts();
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-getPosts();
+  return (
+    <div className="container">
+      <h1>Blog Platform</h1>
 
-},[]);
+      <input
+        placeholder="Search blogs..."
+        onChange={(e) => setSearch(e.target.value)}
+      />
 
+      {posts
+        .filter((post) =>
+          post.title.toLowerCase().includes(search.toLowerCase())
+        )
+        .map((post) => (
+          <div className="post-card" key={post._id}>
+            <h2>{post.title}</h2>
+            <p>{post.content}</p>
 
+            <h4>Category: {post.category}</h4>
 
-const getPosts=async()=>{
+            <p>By {post.author?.name}</p>
 
+            <button className="like" onClick={() => likePost(post._id)}>
+              ❤️ {post.likes.length}
+            </button>
 
-const res =
-await api.get("/posts");
+            <button className="delete" onClick={() => deletePost(post._id)}>
+              Delete
+            </button>
 
+            <button className="edit">Edit</button>
 
-setPosts(res.data);
-
-
-};
-
-
-
-
-const likePost=async(id)=>{
-
-
-await api.put(
-
-`/posts/${id}/like`,
-
-{},
-
-{
-headers:{
-Authorization:
-`Bearer ${localStorage.getItem("token")}`
+            <PostDetails postId={post._id} />
+          </div>
+        ))}
+    </div>
+  );
 }
-}
-
-);
-
-
-getPosts();
-
-};
-
-
-
-
-const deletePost=async(id)=>{
-
-
-await api.delete(
-
-`/posts/${id}`,
-
-{
-headers:{
-Authorization:
-`Bearer ${localStorage.getItem("token")}`
-}
-}
-
-);
-
-
-getPosts();
-
-};
-
-
-
-
-return(
-
-
-<div className="container">
-
-
-
-<h1>Blog Platform</h1>
-
-
-
-<input
-
-placeholder="Search blogs..."
-
-onChange={
-(e)=>setSearch(e.target.value)
-}
-
-/>
-
-
-
-
-{
-
-posts
-
-.filter(post=>
-
-post.title
-.toLowerCase()
-.includes(
-search.toLowerCase()
-)
-
-)
-
-.map(post=>(
-
-
-<div 
-className="post-card"
-key={post._id}
->
-
-
-
-<h2>{post.title}</h2>
-
-
-<p>
-{post.content}
-</p>
-
-
-
-<h4>
-
-Category:
-{post.category}
-
-</h4>
-
-
-
-<p>
-By {post.author?.name}
-</p>
-
-
-
-<button
-className="like"
-onClick={()=>likePost(post._id)}
->
-❤️ {post.likes.length}
-</button>
-
-
-
-<button
-className="delete"
-onClick={()=>deletePost(post._id)}
->
-Delete
-</button>
-
-<button
-className="edit"
-onClick={()=>setEditId(post._id)}
->
-Edit
-</button>
-
-<PostDetails postId={post._id}/>
-
-
-
-</div>
-
-
-))
-
-}
-
-
-
-</div>
-
-
-)
-
-}
-
 
 export default Home;
