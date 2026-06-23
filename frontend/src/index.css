@@ -1,0 +1,377 @@
+/* Reset */
+
+*{
+  box-sizing:border-box;
+}
+
+
+body{
+
+  margin:0;
+
+  font-family:'Segoe UI',Arial,sans-serif;
+
+  background:linear-gradient(
+    135deg,
+    #fdfbfb,
+    #ebedee
+  );
+
+  color:#1f2937;
+
+}
+
+
+
+/* Navbar */
+
+nav{
+
+  background:linear-gradient(
+    90deg,
+    #667eea,
+    #764ba2
+  );
+
+  padding:18px 40px;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  box-shadow:0 5px 20px rgba(0,0,0,.2);
+
+}
+
+
+
+nav a{
+
+  color:white;
+
+  text-decoration:none;
+
+  font-size:18px;
+
+  font-weight:600;
+
+  margin:0 10px;
+
+}
+
+
+
+nav a:hover{
+
+  color:#ffe082;
+
+}
+
+
+
+nav button{
+
+  background:#ff4757;
+
+  color:white;
+
+  border:none;
+
+  padding:10px 20px;
+
+  border-radius:25px;
+
+  cursor:pointer;
+
+}
+
+
+
+
+
+/* Main */
+
+.container{
+
+  width:90%;
+
+  max-width:1000px;
+
+  margin:30px auto;
+
+}
+
+
+
+/* Heading */
+
+h1{
+
+  text-align:center;
+
+  color:#4f46e5;
+
+}
+
+
+
+h2{
+
+  color:#312e81;
+
+}
+
+
+
+/* Blog card */
+
+.post-card{
+
+  background:white;
+
+  padding:25px;
+
+  margin:25px 0;
+
+  border-radius:20px;
+
+  box-shadow:
+
+  0 10px 25px rgba(0,0,0,.12);
+
+  transition:.3s;
+
+  border-left:8px solid #667eea;
+
+}
+
+
+
+.post-card:hover{
+
+  transform:translateY(-6px);
+
+}
+
+
+
+/* Text */
+
+.post-card p{
+
+  color:#555;
+
+  line-height:1.7;
+
+}
+
+
+
+/* Category */
+
+.category{
+
+  background:#ede9fe;
+
+  color:#6d28d9;
+
+  padding:7px 15px;
+
+  border-radius:20px;
+
+  font-weight:bold;
+
+}
+
+
+
+/* Buttons */
+
+
+button{
+
+  border:none;
+
+  padding:10px 18px;
+
+  border-radius:25px;
+
+  cursor:pointer;
+
+  font-weight:600;
+
+}
+
+
+
+button:hover{
+
+  transform:scale(1.05);
+
+}
+
+
+
+.delete{
+
+  background:#ff6b6b;
+
+  color:white;
+
+}
+
+
+
+.edit{
+
+  background:#4dabf7;
+
+  color:white;
+
+}
+
+
+
+.like{
+
+  background:#ffd43b;
+
+}
+
+
+
+/* Forms */
+
+
+.form{
+
+  width:400px;
+
+  margin:40px auto;
+
+  background:white;
+
+  padding:35px;
+
+  border-radius:20px;
+
+
+  box-shadow:
+
+  0 10px 30px rgba(0,0,0,.15);
+
+}
+
+
+
+.form h1{
+
+  margin-bottom:20px;
+
+}
+
+
+
+input,textarea{
+
+  width:100%;
+
+  padding:14px;
+
+  margin:10px 0;
+
+  border-radius:12px;
+
+  border:2px solid #ddd;
+
+  outline:none;
+
+}
+
+
+
+input:focus,
+textarea:focus{
+
+  border-color:#667eea;
+
+}
+
+
+
+.form button{
+
+  width:100%;
+
+  background:
+
+  linear-gradient(
+  90deg,
+  #667eea,
+  #764ba2
+  );
+
+  color:white;
+
+}
+
+
+
+/* Comments */
+
+
+.comment{
+
+  background:#f3f4f6;
+
+  padding:12px;
+
+  border-radius:12px;
+
+  margin:10px 0;
+
+}
+
+
+
+/* Create post */
+
+textarea{
+
+  min-height:120px;
+
+}
+
+
+
+/* Mobile */
+
+@media(max-width:600px){
+
+
+nav{
+
+ flex-direction:column;
+
+ gap:15px;
+
+}
+
+
+.form{
+
+ width:90%;
+
+}
+
+
+.container{
+
+ width:95%;
+
+}
+
+
+}
