@@ -10,7 +10,7 @@ const [posts,setPosts]=useState([]);
 
 const [search,setSearch]=useState("");
 
-const [,setEditId]=useState(null);
+const [setEditId]=useState(null);
 
 
 useEffect(()=>{
